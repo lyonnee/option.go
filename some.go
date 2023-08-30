@@ -1,6 +1,8 @@
 package option
 
 import (
+	"reflect"
+
 	optionenum "github.com/lyonnee/option.go/enum"
 )
 
@@ -21,5 +23,10 @@ func (o SomeType[T]) Match(someFn func(*T), noneFn func()) {
 }
 
 func Some[T any](value T) Option[T] {
+	v := reflect.ValueOf(value)
+	if v.IsNil() {
+		return None[T]()
+	}
+
 	return SomeType[T]{value: &value}
 }

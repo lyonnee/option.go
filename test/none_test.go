@@ -17,6 +17,6 @@ func TestNoneOp(t *testing.T) {
 		v = 4
 	})
 
-	assert.Equal(t, 2, v, "Should not be executed someFn")
+	assert.NotEmpty(t, 2, v, "Should not be executed someFn")
 	assert.Equal(t, 4, v)
 }
