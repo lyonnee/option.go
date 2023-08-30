@@ -1,22 +1,24 @@
 package option
 
-import optionenum "github.com/lyonnee/option.go/enum"
+import (
+	optionenum "github.com/lyonnee/option.go/enum"
+)
 
-type None[T any] struct {
+type NoneType[T any] struct {
 }
 
-func (o None[T]) Value() *T {
+func (o NoneType[T]) Value() *T {
 	return nil
 }
 
-func (o None[T]) Kind() optionenum.Enum {
+func (o NoneType[T]) Kind() optionenum.Enum {
 	return optionenum.None
 }
 
-func (o None[T]) Match(someFunc func(*T) error, noneFunc func() error) {
-	noneFunc()
+func (o NoneType[T]) Match(someFn func(*T), noneFn func()) {
+	noneFn()
 }
 
-func NewNone[T any]() Option[T] {
-	return None[T]{}
+func None[T any]() Option[T] {
+	return NoneType[T]{}
 }
