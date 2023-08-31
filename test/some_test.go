@@ -22,7 +22,7 @@ func TestSomeOp(t *testing.T) {
 
 	assert.NotEqual(t, 4, v, "Should not be executed noneFn")
 	assert.Equal(t, 2, v)
-	assert.Equal(t, 101, *(o.Value()))
+	assert.Equal(t, 101, o.Value())
 }
 
 type TestStruct struct {
@@ -31,16 +31,25 @@ type TestStruct struct {
 }
 
 func TestNilSome(t *testing.T) {
-	v := option.Some[[]byte](nil)
-	assert.Equal(t, optionenum.None, v.Kind())
-
-	s := option.Some[*TestStruct](nil)
-	assert.Equal(t, optionenum.None, s.Kind())
-
-	s1 := option.Some[*TestStruct](&TestStruct{})
-	assert.Equal(t, optionenum.Some, s1.Kind())
-
 	var bs []byte
-	bss := option.Some(&bs)
-	assert.Equal(t, optionenum.Some, bss.Kind())
+	bsp := option.Some(&bs)
+	assert.Equal(t, optionenum.Some, bsp.Kind())
+
+	nbs := option.Some[[]byte](nil)
+	assert.Equal(t, optionenum.None, nbs.Kind())
+
+	s := option.Some[TestStruct](TestStruct{
+		i: 1,
+		s: "1",
+	})
+	assert.Equal(t, optionenum.Some, s.Kind())
+
+	ns := option.Some[TestStruct](TestStruct{})
+	assert.Equal(t, optionenum.None, ns.Kind())
+
+	sp := option.Some[*TestStruct](&TestStruct{})
+	assert.Equal(t, optionenum.Some, sp.Kind())
+
+	nsp := option.Some[*TestStruct](nil)
+	assert.Equal(t, optionenum.None, nsp.Kind())
 }
